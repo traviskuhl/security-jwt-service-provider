@@ -20,6 +20,8 @@ class JWTToken extends AbstractToken implements TokenInterface
      */
     protected $usernameClaim;
 
+    protected $data;
+
     /**
      * Constructor.
      *
@@ -28,13 +30,18 @@ class JWTToken extends AbstractToken implements TokenInterface
      * @param string                   $providerKey The provider key
      * @param RoleInterface[]|string[] $roles       An array of roles
      */
-    public function __construct($user, $context, $providerKey, array $roles = array()) {
+    public function __construct($user, $context, $providerKey, array $roles = array(), array $data = []) {
         parent::__construct($roles);
         $this->setUser($user);
         $this->credentials = $context;
         $this->providerKey = $providerKey;
+        $this->data = $data;
 
         parent::setAuthenticated(count($roles) > 0);
+    }
+
+    public function getData() {
+      return $this->data;
     }
 
     /**
