@@ -60,9 +60,7 @@ class JWTListener implements ListenerInterface {
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        $requestToken = $this->getToken(
-            $request->headers->get($this->options['header_name'], null)
-        );
+        $requestToken = $this->getToken($request);
 
         if (!empty($requestToken)) {
             try {
@@ -94,8 +92,12 @@ class JWTListener implements ListenerInterface {
      *
      * @return string
      */
-    protected function getToken($requestToken)
-    {
+    protected function getToken($request){
+      $query = $request->query->get($this->options['query_name'], null);
+      $header = $request->headers->get($this->options['header_name'], null);
+
+      $requestToken = $header ?? $query ?? null;
+
         $prefix = $this->options['token_prefix'];
         if (null === $prefix) {
             return $requestToken;

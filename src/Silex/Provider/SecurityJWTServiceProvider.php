@@ -24,6 +24,7 @@ class SecurityJWTServiceProvider implements ServiceProviderInterface
                 'username_claim' => 'name',
                 'header_name' => 'SECURITY_TOKEN_HEADER',
                 'token_prefix' => null,
+                'query_name' => 'token'
             ]
         ], $app['security.jwt']);
 
